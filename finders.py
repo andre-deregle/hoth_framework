@@ -1,19 +1,36 @@
+import element
 from base import Base
 from errors import NoneElementFound
-import element
-import pdb
+
 
 class Finders(Base):
 
-    def find(self, elem=False, **kwargs):
+    """!
+    Find methods.
+    """
+
+    def find(self, elem=None, **kwargs):
+        """!
+        Method that finds element in DOM HTML. You can use different
+        web element parameters to search element, ex.:
+        find(id="id_name"), find(class_="class_name"), find(type="type_name"),
+        etc.
+        Args:
+            elem - object of element.Element class
+            kwargs - params to search
+        Returns:
+            element.Element object
+        Raise exception:
+            NoneElementFound: if element is not found
+        """
         if 'class_' in kwargs.keys():
             kwargs['class'] = kwargs.pop('class_')
         if elem:
             elem = self.soup_hoth.find(**kwargs)
         else:
             elem = self.get_page_html().find(**kwargs)
-        elem['dom_tag'] = elem.name
         params = {}
+        params['dom_tag'] = elem.name
         params['soup_hoth'] = elem
         for key in elem.attrs:
             params[key] = elem[key]
@@ -22,7 +39,21 @@ class Finders(Base):
         else:
             raise NoneElementFound('No such element.')
 
-    def all(self, elem=False, **kwargs):
+    def all(self, elem=None, **kwargs):
+        """!
+        Method that find elements in DOM HTML and put them into list.
+        You can use different web element parameters to search element,
+        ex.:
+        all(id="id_name"), all(class_="class_name"), all(type="type_name"),
+        etc.
+        Args:
+            elem - object of element.Element class
+            kwargs - params to search
+        Returns:
+            list of element.Element objects
+        Raise exception:
+            NoneElementFound: if any element is found
+        """
         if 'class_' in kwargs.keys():
             kwargs['class'] = kwargs.pop('class_')
         if elem:
@@ -31,8 +62,8 @@ class Finders(Base):
             all_elements = self.get_page_html().find_all(**kwargs)    
         all_classified_elem = []
         for element in all_elements:
-            element['dom_tag'] = element.name
             params = {}
+            params['dom_tag'] = element.name
             params['soup_hoth'] = element
             for key in element.attrs:
                 params[key] = element[key]
@@ -41,9 +72,3 @@ class Finders(Base):
             return all_classified_elem
         else:
             raise NoneElementFound('No such element.')
-
-if __name__ == "__main__":
-    finder = Finders()
-    finder.start_driver()
-    finder.visit_page("https://sites.google.com/a/chromium.org/chromedriver/getting-started")
-    pdb.set_trace()

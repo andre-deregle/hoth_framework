@@ -4,6 +4,10 @@ from base import Base
 from finders import Finders
 
 class Element:
+
+    """!
+    WebElement which is basicaly BeautifulSoup tag element.
+    """
     def __init__(self, *initial_data, **kwargs):
         for dictionary in initial_data:
             for key in dictionary:
@@ -69,6 +73,11 @@ class Element:
 
 
 class Page(Element):
+
+    """!
+    BeautifulSoup html element.
+    """
+
     def __init__(self):
         page = Base().get_current_page_html()
         page['dom_tag'] = "page"
