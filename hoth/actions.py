@@ -22,7 +22,6 @@ class Actions(Base):
             elem - object of element.Element class
             kwargs - params to search
         """
-        Base().get_current_page_html()
         selenium_elem = self._change_to_selenium_elem(elem, **kwargs)
         eval(selenium_elem+".click()")
 
@@ -36,7 +35,6 @@ class Actions(Base):
         Raise exception:
             ParamIsMissed: if missed option "txt_" while calling method.
         """
-        Base().get_current_page_html()
         if "txt_" in kwargs.keys():
             value = kwargs["txt_"]
             kwargs.pop('txt_')
@@ -56,7 +54,6 @@ class Actions(Base):
         Raise exception:
             ParamIsMissed: if missed option "option_" while calling method.
         """
-        Base().get_current_page_html()
         if "option_" in kwargs.keys():
             value = kwargs["option_"]
             kwargs.pop('option_')
@@ -76,7 +73,6 @@ class Actions(Base):
         Raise exception:
             ParamIsMissed: if missed option "check_" while calling method.
         """
-        Base().get_current_page_html()
         if "check_" in kwargs.keys():
             value = kwargs["check_"]
             kwargs.pop('check_')
@@ -101,10 +97,10 @@ class Actions(Base):
             soup_element = elem.soup_hoth
         else:
             soup_element = Finders().find(**kwargs).soup_hoth
-        if not soup_element.has_attr('id'):
+        if soup_element.has_attr('id'):
             locator = soup_element['id']
             return "self.get_driver().find_element_by_id(\'"+locator+"\')"
-        elif not soup_element.has_attr('class'):
+        elif soup_element.has_attr('class'):
             locator = soup_element['class'][0]
             return "self.get_driver().find_element_by_class_name(\'"+locator+"\')"
         else:

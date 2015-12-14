@@ -1,5 +1,5 @@
-from actions import Actions
-from asserts import Assertions
+import actions
+import asserts
 from base import Base
 from finders import Finders
 
@@ -22,16 +22,16 @@ class Element:
             return False
 
     def click(self, **kwargs):
-        Actions().click(self, **kwargs)
+        actions.Actions().click(self, **kwargs)
 
     def set_input(self, **kwargs):
-        Actions().set_input(self, **kwargs)
+        actions.Actions().set_input(self, **kwargs)
 
     def select(self, **kwargs):
-        Actions().select(self, **kwargs)
+        actions.Actions().select(self, **kwargs)
 
     def set_checkbox(self, **kwargs):
-        Actions().set_checkbox(self, **kwargs)
+        actions.Actions().set_checkbox(self, **kwargs)
 
     def find(self, **kwargs):
         Finders().find(self, **kwargs)
@@ -40,36 +40,36 @@ class Element:
         Finders().all(self, **kwargs)
 
     def has_text(self, text):
-        elem = Actions()._change_to_selenium_elem(self)
-        return Assertions().has_text(elem, text)
+        elem = actions.Actions()._change_to_selenium_elem(self)
+        return asserts.Assertions().has_text(elem, text)
 
     def should_has_text(self, text):
-        elem = Actions()._change_to_selenium_elem(self)
-        return Assertions().should_has_text(elem, text)
+        elem = actions.Actions()._change_to_selenium_elem(self)
+        return asserts.Assertions().should_has_text(elem, text)
 
     def is_selected(self):
-        elem = Actions()._change_to_selenium_elem(self)
-        return Assertions().is_selected(elem)
+        elem = actions.Actions()._change_to_selenium_elem(self)
+        return asserts.Assertions().is_selected(elem)
 
     def should_be_selected(self):
-        elem = Actions()._change_to_selenium_elem(self)
-        return Assertions().should_be_selected(elem)
+        elem = actions.Actions()._change_to_selenium_elem(self)
+        return asserts.Assertions().should_be_selected(elem)
 
     def is_displayed(self):
-        elem = Actions()._change_to_selenium_elem(self)
-        return Assertions().is_displayed(elem)
+        elem = actions.Actions()._change_to_selenium_elem(self)
+        return asserts.Assertions().is_displayed(elem)
 
     def should_be_displayed(self):
-        elem = Actions()._change_to_selenium_elem(self)
-        return Assertions().should_be_displayed(elem)
+        elem = actions.Actions()._change_to_selenium_elem(self)
+        return asserts.Assertions().should_be_displayed(elem)
 
     def is_enabled(self):
-        elem = Actions()._change_to_selenium_elem(self)
-        return Assertions().is_enabled(elem)
+        elem = actions.Actions()._change_to_selenium_elem(self)
+        return asserts.Assertions().is_enabled(elem)
 
     def should_be_enabled(self):
-        elem = Actions()._change_to_selenium_elem(self)
-        return Assertions().should_be_enabled(elem)
+        elem = actions.Actions()._change_to_selenium_elem(self)
+        return asserts.Assertions().should_be_enabled(elem)
 
 
 class Page(Element):
@@ -89,7 +89,7 @@ class Page(Element):
             setattr(self, param, params[param])
 
     def page_has_text(self, text):
-        Assertions().page_has_text(self, text)
+        asserts.Assertions().page_has_text(self, text)
 
     def should_be_text_on_page(self, text):
-        Assertions().page_has_text(self, text)
+        asserts.Assertions().page_has_text(self, text)

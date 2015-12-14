@@ -56,3 +56,12 @@ class Base:
 
     def get_driver(self):
         return DRIVER
+
+    def close_driver(self):
+        DRIVER.close()
+
+    def quit_driver(self):
+        DRIVER.quit()
+
+    def maximize_window(self):
+        DRIVER.maximize_window()

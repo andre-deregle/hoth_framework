@@ -23,8 +23,8 @@ class Finders(Base):
         Raise exception:
             NoneElementFound: if element is not found
         """
-        if 'class_' in kwargs.keys():
-            kwargs['class'] = kwargs.pop('class_')
+        Base().get_current_page_html()
+        if 'class_' in kwargs.keys(): kwargs['class'] = kwargs.pop('class_')
         if elem:
             elem = self.soup_hoth.find(**kwargs)
         else:
@@ -54,6 +54,7 @@ class Finders(Base):
         Raise exception:
             NoneElementFound: if any element is found
         """
+        Base().get_current_page_html()
         if 'class_' in kwargs.keys():
             kwargs['class'] = kwargs.pop('class_')
         if elem:
