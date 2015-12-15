@@ -26,7 +26,7 @@ class Finders(Base):
         Base().get_current_page_html()
         if 'class_' in kwargs.keys(): kwargs['class'] = kwargs.pop('class_')
         if elem:
-            elem = self.soup_hoth.find(**kwargs)
+            elem = elem.soup_hoth.find(**kwargs)
         else:
             elem = self.get_page_html().find(**kwargs)
         params = {}
@@ -58,7 +58,7 @@ class Finders(Base):
         if 'class_' in kwargs.keys():
             kwargs['class'] = kwargs.pop('class_')
         if elem:
-            all_elements = self.soup_hoth.find_all(**kwargs)
+            all_elements = elem.soup_hoth.find_all(**kwargs)
         else:
             all_elements = self.get_page_html().find_all(**kwargs)    
         all_classified_elem = []

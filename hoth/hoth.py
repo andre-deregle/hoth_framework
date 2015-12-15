@@ -34,6 +34,9 @@ class Hoth:
     def maximize_window(self):
         base.Base().maximize_window()
 
+    def screen(self, location='./tmp/screenshots'):
+        base.Base().screen(location)
+
     # Assertions
     def page_has_text(self, text):
         return asserts.Assertions().page_has_text(text)

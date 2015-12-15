@@ -34,10 +34,10 @@ class Element:
         actions.Actions().set_checkbox(self, **kwargs)
 
     def find(self, **kwargs):
-        Finders().find(self, **kwargs)
+        return Finders().find(self, **kwargs)
     
     def all(self, **kwargs):
-        Finders().all(self, **kwargs)
+        return Finders().all(self, **kwargs)
 
     def has_text(self, text):
         elem = actions.Actions()._change_to_selenium_elem(self)

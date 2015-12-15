@@ -41,7 +41,9 @@ class Actions(Base):
         else:
             raise ParamIsMissed('You missed "txt_" param.')
         selenium_elem = self._change_to_selenium_elem(elem, **kwargs)
+        eval(selenium_elem+".click()")
         eval(selenium_elem+".clear()")
+        eval(selenium_elem+".click()")
         eval(selenium_elem+".send_keys(\""+value+"\")")
 
     def select(self, elem=None, **kwargs):

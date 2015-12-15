@@ -1,8 +1,8 @@
 import os
+import time
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
-import pdb
 
 
 class Base:
@@ -65,3 +65,13 @@ class Base:
 
     def maximize_window(self):
         DRIVER.maximize_window()
+
+    def screen(self, location='./tmp/screenshots'):
+        """! Saving screenshot."""
+        timestamp = time.strftime('%d_%b_%Y_%H_%M')
+        filename = timestamp + '.png'
+        path = os.path.abspath(location)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        full_path = path + '/' + filename
+        DRIVER.get_screenshot_as_file(full_path)
