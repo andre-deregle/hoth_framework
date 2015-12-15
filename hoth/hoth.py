@@ -1,8 +1,10 @@
+import sys
+
 import actions
 import asserts
 import base
 import finders
-import sys
+
 
 class Hoth:
     def __init__(self):

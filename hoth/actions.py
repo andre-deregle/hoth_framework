@@ -6,8 +6,6 @@ from base import Base
 from errors import ParamIsMissed
 from finders import Finders
 
-import pdb
-
 
 class Actions(Base):
 

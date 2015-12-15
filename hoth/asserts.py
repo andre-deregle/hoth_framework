@@ -1,10 +1,10 @@
+from selenium.webdriver.support.ui import Select
+
 from base import Base
 from errors import CantFindSuchText
 from errors import NoneElementFound
 from errors import ParamIsMissed
-from finders import Finders
-from selenium.webdriver.support.ui import Select
-import pdb
+
 
 class Assertions(Base):
 

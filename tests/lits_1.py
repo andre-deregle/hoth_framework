@@ -4,22 +4,22 @@ import re
 import unittest
 
 from hoth import Hoth
-import pdb
 
 
 class PresentationLITS(unittest.TestCase):
 
     def setUp(self):
-        test = Hoth()
-        test.start_driver()
-        test.maximize_window()
+        self.test = Hoth()
 
     def test_check_required(self):
-        test = Hoth()
-        test.visit_page('http://lits.com.ua/')
-        test.click(class_='icon-mail')
+        """! Test that checks all fields in Contact form are required."""
+        self.test.start_driver()
+        self.test.maximize_window()
+        self.test.visit_page('http://lits.com.ua/')
+        self.test.should_be_text_on_page('Стати студентом')
+        self.test.click(class_='icon-mail')
 
-        contact_form = test.find(id='cntctfrm_contact_form')
+        contact_form = self.test.find(id='cntctfrm_contact_form')
         contact_form.should_has_text('Запитання')
         contact_form.should_has_text('Ім\'я')
         contact_form.should_has_text('Email')
@@ -38,21 +38,24 @@ class PresentationLITS(unittest.TestCase):
 
         send_button = contact_form.find(type='submit')
         send_button.click()
-        test.should_be_text_on_page('Please fill required fields!')
-        test.close_driver()
+        self.test.should_be_text_on_page('Please fill required fields!')
+        self.test.close_driver()
 
     def test_check_captcha(self):
-        test = Hoth()
-        test.visit_page('http://lits.com.ua/')
-        test.click(class_='icon-mail')
-        test.should_be_text_on_page('Captcha *')
-        element = test.find(class_='cptch_block')
+        """! Test that enter valid info in Contact form and submit it."""
+        self.test.start_driver(driver_type='Chrome')
+        self.test.maximize_window()
+        self.test.visit_page('http://lits.com.ua/')
+        self.test.click(class_='icon-mail')
+        self.test.should_be_text_on_page('Captcha *')
+        element = self.test.find(class_='cptch_block')
         text_of_the_el = element.soup_hoth.get_text()
         equation = self.leave_only_equation(text_of_the_el)
         input_captcha = str(self.find_input_captcha(equation))
-        captcha_input = test.find(class_='cptch_input')
+        captcha_input = self.test.find(class_='cptch_input')
         captcha_input.set_input(txt_=input_captcha)
 
+        contact_form = self.test.find(id='cntctfrm_contact_form')
         name_input = contact_form.find(id='cntctfrm_contact_name')
         email_input = contact_form.find(id='cntctfrm_contact_email')
         q_input = contact_form.find(id='cntctfrm_contact_message')
@@ -60,14 +63,21 @@ class PresentationLITS(unittest.TestCase):
         name_input.set_input(txt_="Andriy Bondarev")
         email_input.set_input(txt_="bondarev.andriy@gmail.com")
         q_input.set_input(txt_="Python the King!")
-        test.screen()
-        #send_button = contact_form.find(type='submit')
+        self.test.screen()
+        send_button = contact_form.find(type='submit')
         #send_button.click()
-        test.close_driver()
-
-        Дякуємо Вам!
+        #test.click(class_='icon-mail')
+        #contact_form.should_has_text('Дякуємо Вам!')
+        self.test.close_driver()
 
     def leave_only_equation(self, text):
+        """!
+        Take text and leave only numbers and signs as =, -, +, *.
+        Args:
+            text - string;
+        Returns:
+            string with only numbers and signs as =, -, +, *.
+        """
         captcha_text = text.replace('Captcha *\n\n', '')
         captcha_text = self.convert_opertation(captcha_text)
         number = " ".join(re.findall('[a-zA-Z]+', captcha_text))
@@ -76,6 +86,13 @@ class PresentationLITS(unittest.TestCase):
         return captcha_text.replace(' ', '')
 
     def convert_opertation(self, text):
+        """!
+        Take text and convert operation into +, - or * inside it.
+        Args:
+            text - string, with operation to be convert.
+        Returns:
+            string with converted operation.
+        """
         operations = {u'+': '+', u'\u2212': '-', u'\xd7': '*'}
         for each in operations.keys():
             if each in text:
@@ -84,6 +101,13 @@ class PresentationLITS(unittest.TestCase):
         return text
 
     def convert_words_into_number(self, word):
+        """!
+        Take number presented as word and convert it into number.
+        Args:
+            word - string, number as 'one', 'ten', etc.;
+        Returns:
+            string number as '1', '10', etc.
+        """
         numbers = {'one': '1', 'two': '2', 'three': '3', 'four': '4',
                    'five': '5', 'six': '6', 'seven': '7', 'eight': '8',
                    'nine': '9', 'ten': '10', 'eleven': '11', 'twelve': '12',
@@ -122,6 +146,13 @@ class PresentationLITS(unittest.TestCase):
         return numbers[word]
 
     def find_input_captcha(self, equation):
+        """!
+        Find result of equation string.
+        Args:
+            equation - string with only numbers and signs as =, -, +, *.
+        Returns:
+            int, result of equation.
+        """
         before_eq = equation.split('=')[0]
         after_eq = equation.split('=')[-1]
         if after_eq == '':
@@ -141,8 +172,10 @@ class PresentationLITS(unittest.TestCase):
             return input_c
 
     def tearDown(self):
-        Hoth().close_driver()
-        Hoth().quit_driver()
+        try:
+            self.test.quit_driver()
+        except:
+            pass
 
 if __name__ == "__main__":
     unittest.main()

@@ -24,11 +24,11 @@ class Base:
             pass
         else:
             if path:  
-                os.environ["webdriver.chrome.driver"] = path
+                os.environ['webdriver.chrome.driver'] = path
             else:
-                path = ""
+                path = ''
             global DRIVER
-            DRIVER = eval("webdriver."+driver_type+"("+path+")")
+            DRIVER = eval('webdriver.'+driver_type+'('+path+')')
             return DRIVER
 
     def visit_page(self, page_url):
@@ -67,7 +67,7 @@ class Base:
         DRIVER.maximize_window()
 
     def screen(self, location='./tmp/screenshots'):
-        """! Saving screenshot."""
+        """! Saves screenshot."""
         timestamp = time.strftime('%d_%b_%Y_%H_%M')
         filename = timestamp + '.png'
         path = os.path.abspath(location)
